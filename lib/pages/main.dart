@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kelimeezberle/pages/list.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -72,20 +73,26 @@ class _MainPageState extends State<MainPage> {
                   group: _chooseLang,
                   value: Lang.eng,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  height: 55,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  margin: EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Text(
-                    "LİSTELERİM",
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontFamily: "Carter",
-                        color: Colors.white),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ListsPage()));
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 55,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    margin: EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                        color: Colors.deepPurple,
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: Text(
+                      "LİSTELERİM",
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: "Carter",
+                          color: Colors.white),
+                    ),
                   ),
                 ),
                 Container(
