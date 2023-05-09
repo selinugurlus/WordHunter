@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kelimeezberle/pages/main.dart';
 
 class TemproryPage extends StatefulWidget {
   const TemproryPage({Key? key}) : super(key: key);
@@ -8,6 +9,20 @@ class TemproryPage extends StatefulWidget {
 }
 
 class _TemproryPageState extends State<TemproryPage> {
+  //2 sn bu sayfada beklesin sonra diğer sayfaya geçsin
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(
+      Duration(seconds: 2),
+      () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MainPage()));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
