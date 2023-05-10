@@ -22,7 +22,9 @@ class _ListsPageState extends State<ListsPage> {
               alignment: Alignment.centerLeft,
               width: MediaQuery.of(context).size.width * 0.2,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: Icon(
                   Icons.arrow_back_ios,
                   color: Colors.black,

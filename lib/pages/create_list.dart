@@ -115,12 +115,86 @@ class _CreateListState extends State<CreateList> {
                     children: wordListField,
                   ),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  actionBtn(addRow, Icons.add),
+                  actionBtn(save, Icons.save),
+                  actionBtn(deleteRow, Icons.remove)
+                ],
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  InkWell actionBtn(Function() click, IconData icon) {
+    return InkWell(
+      onTap: () => click(),
+      child: Container(
+        width: 40,
+        height: 40,
+        margin: const EdgeInsets.only(bottom: 10),
+        child: Icon(
+          icon,
+          size: 28,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.pinkAccent,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+
+  void addRow() {
+    wordTextEditingList.add(TextEditingController());
+    wordTextEditingList.add(TextEditingController());
+
+    wordListField.add(
+      Row(
+        children: [
+          Expanded(
+              child: textFieldBuilder(
+                  textEditingController:
+                      wordTextEditingList[wordTextEditingList.length - 2])),
+          Expanded(
+              child: textFieldBuilder(
+                  textEditingController:
+                      wordTextEditingList[wordTextEditingList.length - 1]))
+        ],
+      ),
+    );
+
+    setState(() => wordListField);
+  }
+
+  void save() {
+    for (int i = 0; i < wordTextEditingList.length / 2; i++) {
+      String eng = wordTextEditingList[2 * i].text;
+      String tr = wordTextEditingList[2 * i + 1].text;
+
+      if (!eng.isEmpty || !tr.isEmpty) {
+        debugPrint(eng + "<<<<>>>>" + tr);
+      } else {
+        debugPrint("Boş bırakılan alan.");
+      }
+    }
+  }
+
+  void deleteRow() {
+    if (wordListField.length != 1) {
+      wordTextEditingList.removeAt(wordTextEditingList.length - 1);
+      wordTextEditingList.removeAt(wordTextEditingList.length - 1);
+
+      wordListField.removeAt(wordListField.length - 1);
+      setState(() => wordListField);
+    } else {
+      debugPrint("son 1 eleman");
+    }
   }
 
   Container textFieldBuilder(
