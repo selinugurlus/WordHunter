@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kelimeezberle/db/db/db.dart';
+import 'package:kelimeezberle/db/models/lists.dart';
+import 'package:kelimeezberle/db/models/words.dart';
 
 class CreateList extends StatefulWidget {
   const CreateList({Key? key}) : super(key: key);
@@ -172,21 +176,70 @@ class _CreateListState extends State<CreateList> {
     setState(() => wordListField);
   }
 
-  void save() {
-    for (int i = 0; i < wordTextEditingList.length / 2; i++) {
+  void save() async {
+    int counter = 0;
+    bool notEmptyPair = false;
+
+    //burda en az 4 kelime çifti girilmesi gerektiğini ve boş kalmamasını kontrol ediyo.
+    for (int i = 0; i < wordTextEditingList.length / 2; ++i) {
       String eng = wordTextEditingList[2 * i].text;
       String tr = wordTextEditingList[2 * i + 1].text;
 
-      if (!eng.isEmpty || !tr.isEmpty) {
-        debugPrint(eng + "<<<<>>>>" + tr);
+      if (!eng.isEmpty && !tr.isEmpty) {
+        counter++;
       } else {
-        debugPrint("Boş bırakılan alan.");
+        notEmptyPair = true;
       }
+    }
+
+    if (counter >= 4) {
+      if (notEmptyPair == false) {
+        Lists addedList =
+            await DB.instance.insertList(Lists(name: _listname.text));
+
+        for (int i = 0; i < wordTextEditingList.length / 2; i++) {
+          String eng = wordTextEditingList[2 * i].text;
+          String tr = wordTextEditingList[2 * i + 1].text;
+
+          Word word = await DB.instance.insertWord(Word(
+              list_id: addedList.id,
+              word_eng: eng,
+              word_tr: tr,
+              status: false));
+
+          debugPrint(word.id.toString() +
+              " " +
+              word.list_id.toString() +
+              " " +
+              word.word_eng.toString() +
+              " " +
+              word.word_tr.toString() +
+              " " +
+              word.status.toString());
+        }
+
+        debugPrint("TOAST MESSAGE=> LİSTE OLUŞTURULDU.");
+        _listname.clear();
+        wordTextEditingList.forEach((element) {
+          element.clear();
+        });
+      } else {
+        Fluttertoast.showToast(
+            msg: "Boş alanları doldurun veya silin.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    } else {
+      debugPrint("TOAST MESSAGE=>MİN 4 ÇİFT DOLU OLMALI.");
     }
   }
 
   void deleteRow() {
-    if (wordListField.length != 1) {
+    if (wordListField.length != 4) {
       wordTextEditingList.removeAt(wordTextEditingList.length - 1);
       wordTextEditingList.removeAt(wordTextEditingList.length - 1);
 

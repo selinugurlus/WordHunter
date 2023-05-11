@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kelimeezberle/pages/list.dart';
+import 'package:kelimeezberle/pages/lists.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
