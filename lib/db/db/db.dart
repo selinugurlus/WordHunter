@@ -96,7 +96,7 @@ class DB {
 
       Map<String, Object?> temp = Map.of(wordInfoByList[0]);
       temp["name"] = element["name"];
-      temp["list_id"] = temp["id"];
+      temp["list_id"] = element["id"];
       res.add(temp);
     });
 
@@ -126,12 +126,19 @@ class DB {
         where: '${WordTableFields.id} = ?', whereArgs: [id]);
   }
 
+  Future<int> markAsLearned(bool mark, int id) async {
+    final db = await instance.database;
+    int result = mark == true ? 1 : 0;
+    return db.update(tableNameWords, {WordTableFields.status: result},
+        where: '${WordTableFields.id}=?', whereArgs: [id]);
+  }
+
   Future<int> deleteListsAndWordByList(int id) async //kelime silme metodu
   {
     final db = await instance.database;
 
     int result = await db.delete(tableNameLists,
-        where: '${WordTableFields.list_id} = ?', whereArgs: [id]);
+        where: '${ListsTableFields.id} = ?', whereArgs: [id]);
     if (result == 1) {
       await db.delete(tableNameWords,
           where: '${WordTableFields.list_id}=?', whereArgs: [id]);
