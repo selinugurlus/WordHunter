@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kelimeezberle/pages/lists.dart';
+import 'package:kelimeezberle/pages/words_card.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -95,22 +96,30 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  height: 150,
-                  width: 150,
-                  margin: EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                      color: Colors.indigoAccent,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: Text(
-                    "KELİME KARTLARI",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontFamily: "Carter",
-                      color: Colors.white,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const WordCardsPage()));
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 150,
+                    width: 150,
+                    margin: EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.indigoAccent,
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: Text(
+                      "KELİME KARTLARI",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: "Carter",
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
                 Container(

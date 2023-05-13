@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kelimeezberle/db/db/db.dart';
 import 'package:kelimeezberle/db/models/words.dart';
+import 'package:kelimeezberle/pages/add_word.dart';
 
 class WordsPage extends StatefulWidget {
   final int? listID;
@@ -125,6 +126,17 @@ class _WordsPageState extends State<WordsPage> {
           },
           itemCount: _wordList.length,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddWordPage(listID, listName)))
+              .then((value) => getWordByList());
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.purpleAccent,
       ),
     );
   }
