@@ -205,40 +205,63 @@ class _WordCardsPageState extends State<WordCardsPage> {
                 itemCount: _words.length,
                 itemBuilder:
                     (BuildContext context, int itemIndex, int pageViewIndex) {
-                  return InkWell(
-                    onTap: () {
-                      if (changeLang[itemIndex] == true) {
-                        changeLang[itemIndex] = false;
-                      } else {
-                        changeLang[itemIndex] = true;
-                      }
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            if (changeLang[itemIndex] == true) {
+                              changeLang[itemIndex] = false;
+                            } else {
+                              changeLang[itemIndex] = true;
+                            }
 
-                      setState(() {
-                        changeLang[itemIndex];
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(
-                          left: 16, right: 16, top: 0, bottom: 16),
-                      padding:
-                          const EdgeInsets.only(left: 4, top: 10, right: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
+                            setState(() {
+                              changeLang[itemIndex];
+                            });
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(
+                                left: 16, right: 16, top: 0, bottom: 16),
+                            padding:
+                                const EdgeInsets.only(left: 4, top: 10, right: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Text(
+                              changeLang[itemIndex]
+                                  ? (_words[itemIndex].word_eng!)
+                                  : (_words[itemIndex].word_tr!),
+                              style: const TextStyle(
+                                  fontFamily: "RobotoRegular",
+                                  fontSize: 28,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
                       ),
-                      child: Text(
-                        changeLang[itemIndex]
-                            ? (_words[itemIndex].word_eng!)
-                            : (_words[itemIndex].word_tr!),
-                        style: const TextStyle(
-                            fontFamily: "RobotoRegular",
-                            fontSize: 28,
-                            color: Colors.black),
-                      ),
-                    ),
+                      SizedBox(
+                        width: 160,
+                        child: CheckboxListTile(
+                          title: Text("Öğrendim"),
+                          value: _words[itemIndex].status,
+                          onChanged: (value) {
+                            _words[itemIndex] =
+                                _words[itemIndex].copy(status: value);
+                            DB.instance.markAsLearned(
+                                value!, _words[itemIndex].id as int);
+
+                            setState(() {
+                              _words[itemIndex];
+                            });
+                          },
+                        ),
+                      )
+                    ],
                   );
                 }),
       ),

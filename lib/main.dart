@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kelimeezberle/pages/temprory.dart';
 
+import 'notification_service.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initalizeNotification();
+  NotificationService().showNotification(1, 'Haydi!', ' Kelime Avla!');
   runApp(const MyApp());
 }
 
